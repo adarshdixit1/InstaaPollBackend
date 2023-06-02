@@ -9,8 +9,13 @@ console.log(event_id,"this is event id in valid link");
 
 // sql qurey
 const sql = `SELECT * FROM event_link where Event='${event_id}';`
-
+try{
 connection.query(sql,function(err,result){
+    console.log(result)
+    if(result.length <1){
+        res.json({"message":"event not found",Boolean:0})
+        return;
+    }
     const data = result[0]
 
     let oldTime= data.CreatedDate.getTime();
@@ -31,7 +36,12 @@ connection.query(sql,function(err,result){
         res.json({"message":"Link is valid",Boolean:1})
     }
 
-    })
+    })}
+    catch{
+        res.json({"message":"Link is expired",Boolean:0})
+    }
+
+
 }
 
 
