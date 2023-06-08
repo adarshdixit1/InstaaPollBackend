@@ -10,79 +10,73 @@ const ParticipantNameForRating = (req, res) => {
     const sql = `SELECT * FROM events where Id=${data};`
     let participantsDetail;
     let eventDetail;
+    let questions;
     const participant = `SELECT * FROM participants where Event=${data};`
+    const question =`SELECT * FROM questiontable where Event=0`
     // data = {};
     connection.query(sql, function (err, result) {
         eventDetail = result[0]
     })
     connection.query(participant, function (err, result) {
         participantsDetail = result
-        res.json({ eventDetail: eventDetail, participantsDetail: participantsDetail })
+        // res.json({ eventDetail: eventDetail, participantsDetail: participantsDetail })
     })
+    connection.query(question, function (err, result) {
+        questions = result
+        res.json({ eventDetail: eventDetail, participantsDetail: participantsDetail ,questions:questions })
+    })
+
 
 }
 // app.post("/participantName",(req,res)=>{
 
 // })
 
-const validateRater = (req, res) => {
-    const event_id = req.body.event_id;
-    const email = req.body.email;
+// const validateRater = (req, res) => {
+//     const event_id = req.body.event_id;
+//     const email = req.body.email;
 
-    console.log(req.body, "this is req body");
-    if (!event_id) {
-        res.json({ status: "error", message: "event_id is missing" });
-        return;
-    }
-    // console.log("question");
+//     console.log(req.body, "this is req body");
+//     if (!event_id) {
+//         res.json({ status: "error", message: "event_id is missing" });
+//         return;
+//     }
+//     // console.log("question");
 
-    if (!email) {
-        res.json({ status: "error", message: "email is missing" });
-        return;
-    }
-    // for question to database
-    connection.query(`SELECT * FROM rater  WHERE EVENT=${event_id} AND Email='${email}'`, (error, resp, field) => {
-        console.log(error)
-        console.log("lenght", resp.length);
-        if (resp.length > 0) {
-            res.json({ status: "error", message: "invalid credentials", Boolean: 0 });
-            return;
-        }
-        else {
-            connection.query(`INSERT INTO rater(Event,Email)  VALUES (?,?)`, [event_id, email], (err, response) => {
-                if (err) {
-                    res.json({ status: "error", message: "error insert", Boolean: 0 });
-                    return;
-                }
-                else {
-                    console.log(response)
-                    res.json({ status: "success", user: response.insertId, Boolean: 1 });
-                    return
-                }
-            })
+//     if (!email) {
+//         res.json({ status: "error", message: "email is missing" });
+//         return;
+//     }
+//     // for question to database
+//     connection.query(`SELECT * FROM rater  WHERE EVENT=${event_id} AND Email='${email}'`, (error, resp, field) => {
+//         console.log(error)
+//         console.log("lenght", resp.length);
+//         if (resp.length > 0) {
+//             res.json({ status: "error", message: "invalid credentials", Boolean: 0 });
+//             return;
+//         }
+//         else {
+//             connection.query(`INSERT INTO rater(Event,Email)  VALUES (?,?)`, [event_id, email], (err, response) => {
+//                 if (err) {
+//                     res.json({ status: "error", message: "error insert", Boolean: 0 });
+//                     return;
+//                 }
+//                 else {
+//                     console.log(response)
+//                     res.json({ status: "success", user: response.insertId, Boolean: 1 });
+//                     return
+//                 }
+//             })
 
 
-        }
-    });
-}
+//         }
+//     });
+// }
 
 
 
 const inputRating = (req, res) => {
-    // console.log(req.body.length)
-    for (i = 0; i < req.body.length; i++) {
-        // console.log(req.body.ratingValue.length,"this is length value",i)
-        let Participant = req.body[i].participant
-        // console.log(Participant, "this is participants")
-        let RatingPoint = req.body[i].rating
-        // console.log(RatingPoint, "this is ratingpoint")
-        let Question = req.body[i].question
-        // console.log(Question,"this is question")
-if(RatingPoint>5){
-    res.json({ status: "error", message: "Rate is greater than 5", Boolean:0 });
-    return
-}
-}
+
 
     for (i = 0; i < req.body.length; i++) {
         // console.log(req.body.ratingValue.length,"this is length value",i)
@@ -156,6 +150,6 @@ const RaterCount = (req, res) => {
 module.exports = {
     ParticipantNameForRating,
     inputRating,
-    validateRater,
+    // validateRater,
     RaterCount
 };
