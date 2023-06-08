@@ -31,6 +31,31 @@ const deleteEvent=(req,res)=>{
 const creatEventData= (req,res) => {
     // console.log("hello", req.body)
     const {User, Name, Place,Description,Date,Time} = req.body;
+
+    if (!User) {
+		res.json({ status: "error", message: "user missing" , Boolean: 0 });
+		return;
+	}
+    if (!Name) {
+		res.json({ status: "error", message: "Name missing" , Boolean: 0 });
+		return;
+	}
+    if (!Place) {
+		res.json({ status: "error", message: "Place missing" , Boolean: 0});
+		return;
+	}
+    if (!Description) {
+		res.json({ status: "error", message: "Description missing", Boolean: 0 });
+		return;
+	}
+    if (!Date) {
+		res.json({ status: "error", message: " Date missing", Boolean: 0 });
+		return;
+	}
+    if (!Time) {
+		res.json({ status: "error", message: "Time missing", Boolean: 0 });
+		return;
+	}
     // console.log( User,Name,Place,Description,Date,Time);
 
     // Enter data into database

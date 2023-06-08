@@ -20,6 +20,7 @@ app.use("/dashboard",require("./routes/dashboardRoutes"));
 app.use("/events",require("./routes/eventsRoutes"));
 app.use("/inputRating",require("./routes/inputRatingRoutes"))
 app.use("/validating-link",require("./routes/CheckLinkRoutes"))
+app.use("/addQuestion",require("./routes/addQuestionRoutes"))
 
 
 
